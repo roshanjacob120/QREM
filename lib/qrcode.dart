@@ -39,7 +39,7 @@ class _GatePassState extends State<GatePass> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Gate Pass'),
+        title: Text('QR Code'),
       ),
       body: Center(
         child: Column(

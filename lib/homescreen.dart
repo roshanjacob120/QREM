@@ -30,44 +30,113 @@ class homescreen extends StatelessWidget {
         ],
       ),
       body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => GatePassForm()),
-              );
-            },
-            child: Text('Gate Pass Request'),
-          ),
-          SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {
-              // TODO: Implement late entry request functionality
-            },
-            child: Text('Late Entry Request'),
-          ),
-          SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {
-              // TODO: Implement wifi request functionality
-            },
-            child: Text('Wifi Request'),
-          ),
-          SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {
-              // TODO: Implement medical leave request functionality
-            },
-            child: Text('Medical Leave Request'),
-          ),
-          SizedBox(height: 16),
+        child: ListView(
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+          children: [
+            SizedBox(
+              height: 100,
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)
+                  )
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => GatePassForm()),
+                  );
+                },
+                child: Text('Gate Pass Request'),
+              ),
+            ),
+            SizedBox(height: 16),
+            SizedBox(
+              height: 100,
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)
+                    )
+                ),
+                onPressed: () {
+                  // TODO: Implement late entry request functionality
+                },
+                child: Text('Late Entry Request'),
+              ),
+            ),
+            SizedBox(height: 16),
+            SizedBox(
+              height: 100,
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)
+                    )
+                ),
 
-        ],
+                onPressed: () {
+                  // TODO: Implement wifi request functionality
+                },
+                child: Text('Wifi Request'),
+              ),
+            ),
+            SizedBox(height: 16),
+            SizedBox(
+              height: 100,
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)
+                    )
+                ),
+                onPressed: () {
+                  // TODO: Implement medical leave request functionality
+                },
+                child: Text('Medical Leave Request'),
+              ),
+            ),
+            SizedBox(height: 16),
+            SizedBox(
+              height: 100,
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)
+                    )
+                ),
+                onPressed: () {
+                  // TODO: Implement medical leave request functionality
+                },
+                child: Text('Duty Leave Request'),
+              ),
+            ),
+            SizedBox(height: 16),
+            SizedBox(
+              height: 100,
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)
+                    )
+                ),
+                onPressed: () {
+                  // TODO: Implement medical leave request functionality
+                },
+                child: Text('Other'),
+              ),
+            ),
+            SizedBox(height: 16),
+          ],
+        ),
+
       ),
-    ),
 
     );
   }
