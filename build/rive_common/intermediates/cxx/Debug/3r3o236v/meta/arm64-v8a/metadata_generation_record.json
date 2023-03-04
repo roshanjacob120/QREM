@@ -1,0 +1,170 @@
+[
+  {
+    "level_": 0,
+    "message_": "Start JSON generation. Platform version: 19 min SDK version: arm64-v8a",
+    "file_": "/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/CMakeLists.txt",
+    "tag_": "debug|arm64-v8a",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": -45735060
+  },
+  {
+    "level_": 0,
+    "message_": "rebuilding JSON /home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/.cxx/Debug/3r3o236v/arm64-v8a/android_gradle_build.json due to:",
+    "file_": "/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/CMakeLists.txt",
+    "tag_": "debug|arm64-v8a",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 1422595805
+  },
+  {
+    "level_": 0,
+    "message_": "- expected json /home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/.cxx/Debug/3r3o236v/arm64-v8a/android_gradle_build.json file is not present, will remove stale json folder",
+    "file_": "/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/CMakeLists.txt",
+    "tag_": "debug|arm64-v8a",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 1005393857
+  },
+  {
+    "level_": 0,
+    "message_": "- missing previous command file /home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/.cxx/Debug/3r3o236v/arm64-v8a/metadata_generation_command.txt, will remove stale json folder",
+    "file_": "/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/CMakeLists.txt",
+    "tag_": "debug|arm64-v8a",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": -2111852641
+  },
+  {
+    "level_": 0,
+    "message_": "- command changed from previous, will remove stale json folder",
+    "file_": "/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/CMakeLists.txt",
+    "tag_": "debug|arm64-v8a",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": -1478974281
+  },
+  {
+    "level_": 0,
+    "message_": "created folder \u0027/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/.cxx/Debug/3r3o236v/arm64-v8a\u0027",
+    "file_": "/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/CMakeLists.txt",
+    "tag_": "debug|arm64-v8a",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 1001638886
+  },
+  {
+    "level_": 0,
+    "message_": "executing cmake Executable : /home/roshan/Android/Sdk/cmake/3.18.1/bin/cmake\narguments : \n-H/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android\n-DCMAKE_SYSTEM_NAME\u003dAndroid\n-DCMAKE_EXPORT_COMPILE_COMMANDS\u003dON\n-DCMAKE_SYSTEM_VERSION\u003d19\n-DANDROID_PLATFORM\u003dandroid-19\n-DANDROID_ABI\u003darm64-v8a\n-DCMAKE_ANDROID_ARCH_ABI\u003darm64-v8a\n-DANDROID_NDK\u003d/home/roshan/Android/Sdk/ndk/25.1.8937393\n-DCMAKE_ANDROID_NDK\u003d/home/roshan/Android/Sdk/ndk/25.1.8937393\n-DCMAKE_TOOLCHAIN_FILE\u003d/home/roshan/Android/Sdk/ndk/25.1.8937393/build/cmake/android.toolchain.cmake\n-DCMAKE_MAKE_PROGRAM\u003d/home/roshan/Android/Sdk/cmake/3.18.1/bin/ninja\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003d/home/roshan/App development/qrem_pass/build/rive_common/intermediates/cxx/Debug/3r3o236v/obj/arm64-v8a\n-DCMAKE_RUNTIME_OUTPUT_DIRECTORY\u003d/home/roshan/App development/qrem_pass/build/rive_common/intermediates/cxx/Debug/3r3o236v/obj/arm64-v8a\n-DCMAKE_BUILD_TYPE\u003dDebug\n-B/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/.cxx/Debug/3r3o236v/arm64-v8a\n-GNinja\njvmArgs : \n\n",
+    "file_": "/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/CMakeLists.txt",
+    "tag_": "debug|arm64-v8a",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": -2121748218
+  },
+  {
+    "level_": 0,
+    "message_": "Executable : /home/roshan/Android/Sdk/cmake/3.18.1/bin/cmake\narguments : \n-H/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android\n-DCMAKE_SYSTEM_NAME\u003dAndroid\n-DCMAKE_EXPORT_COMPILE_COMMANDS\u003dON\n-DCMAKE_SYSTEM_VERSION\u003d19\n-DANDROID_PLATFORM\u003dandroid-19\n-DANDROID_ABI\u003darm64-v8a\n-DCMAKE_ANDROID_ARCH_ABI\u003darm64-v8a\n-DANDROID_NDK\u003d/home/roshan/Android/Sdk/ndk/25.1.8937393\n-DCMAKE_ANDROID_NDK\u003d/home/roshan/Android/Sdk/ndk/25.1.8937393\n-DCMAKE_TOOLCHAIN_FILE\u003d/home/roshan/Android/Sdk/ndk/25.1.8937393/build/cmake/android.toolchain.cmake\n-DCMAKE_MAKE_PROGRAM\u003d/home/roshan/Android/Sdk/cmake/3.18.1/bin/ninja\n-DCMAKE_LIBRARY_OUTPUT_DIRECTORY\u003d/home/roshan/App development/qrem_pass/build/rive_common/intermediates/cxx/Debug/3r3o236v/obj/arm64-v8a\n-DCMAKE_RUNTIME_OUTPUT_DIRECTORY\u003d/home/roshan/App development/qrem_pass/build/rive_common/intermediates/cxx/Debug/3r3o236v/obj/arm64-v8a\n-DCMAKE_BUILD_TYPE\u003dDebug\n-B/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/.cxx/Debug/3r3o236v/arm64-v8a\n-GNinja\njvmArgs : \n\n",
+    "file_": "/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/CMakeLists.txt",
+    "tag_": "debug|arm64-v8a",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 2061579751
+  },
+  {
+    "level_": 0,
+    "message_": "Exiting generation of /home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/.cxx/Debug/3r3o236v/arm64-v8a/compile_commands.json.bin normally",
+    "file_": "/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/CMakeLists.txt",
+    "tag_": "debug|arm64-v8a",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 1264944299
+  },
+  {
+    "level_": 0,
+    "message_": "done executing cmake",
+    "file_": "/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/CMakeLists.txt",
+    "tag_": "debug|arm64-v8a",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": -1791320532
+  },
+  {
+    "level_": 0,
+    "message_": "write command file /home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/.cxx/Debug/3r3o236v/arm64-v8a/metadata_generation_command.txt",
+    "file_": "/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/CMakeLists.txt",
+    "tag_": "debug|arm64-v8a",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": -2052354799
+  },
+  {
+    "level_": 0,
+    "message_": "JSON generation completed without problems",
+    "file_": "/home/roshan/snap/flutter/common/flutter/.pub-cache/hosted/pub.dartlang.org/rive_common-0.0.2/android/CMakeLists.txt",
+    "tag_": "debug|arm64-v8a",
+    "diagnosticCode_": 0,
+    "memoizedIsInitialized": 1,
+    "unknownFields": {
+      "fields": {},
+      "fieldsDescending": {}
+    },
+    "memoizedSize": -1,
+    "memoizedHashCode": 146752552
+  }
+]

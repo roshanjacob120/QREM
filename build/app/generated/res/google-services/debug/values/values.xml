@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">264268233364-fufm49ij1v9n6tmklvtun3il5jolvlof.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">264268233364</string>
+    <string name="google_api_key" translatable="false">AIzaSyDNclBwIRXBWHTT1c9Us3IxfYdt5ZNdjhs</string>
+    <string name="google_app_id" translatable="false">1:264268233364:android:5a07a52e9725b0461f1281</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyDNclBwIRXBWHTT1c9Us3IxfYdt5ZNdjhs</string>
+    <string name="google_storage_bucket" translatable="false">smart-pass-349cc.appspot.com</string>
+    <string name="project_id" translatable="false">smart-pass-349cc</string>
+</resources>
