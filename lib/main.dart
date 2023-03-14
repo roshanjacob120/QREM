@@ -15,13 +15,15 @@ void main() async{
   await Firebase.initializeApp();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final bool isLoggedIn = prefs.getBool("is_logged_in") ?? false;
-  runApp(MyApp(isLoggedIn: isLoggedIn));
+  final bool isTeacherLoggedIn = prefs.getBool("teacher_logged_in") ?? false;
+  runApp(MyApp(isLoggedIn: isLoggedIn, isTeacherLoggedIn: isTeacherLoggedIn));
 }
 
 class MyApp extends StatelessWidget {
   final bool isLoggedIn;
+  final bool isTeacherLoggedIn;
 
-  MyApp({required this.isLoggedIn});
+  MyApp({required this.isLoggedIn, required this.isTeacherLoggedIn});
 
   @override
   Widget build(BuildContext context) {
@@ -30,11 +32,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.purple,
       ),
-      home: isLoggedIn ? HomePage() : LoginPage(),
+      home: isLoggedIn ? (isTeacherLoggedIn ? TeacherRequestsScreen() : HomePage()) : LoginPage(),
     );
   }
 }
-
 
 class LoginPage extends StatefulWidget {
   @override
@@ -149,6 +150,8 @@ class _LoginPageState extends State<LoginPage> {
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               prefs.setString("teacher_email", teacherEmail);
+                              prefs.setBool("is_logged_in", true);
+                              prefs.setBool("teacher_logged_in", true);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -161,6 +164,7 @@ class _LoginPageState extends State<LoginPage> {
                             {
                               final SharedPreferences prefs = await SharedPreferences.getInstance();
                               prefs.setBool("is_logged_in", true);
+                              prefs.setBool("teacher_logged_in", false);
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => HomePage()),

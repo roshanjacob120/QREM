@@ -11,7 +11,7 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   final _formKey = GlobalKey<FormState>();
-  final fire_store=FirebaseFirestore.instance;
+  final fire_store = FirebaseFirestore.instance;
   String _name = "";
   String _email = "";
   String _department = "CSE";
@@ -19,115 +19,163 @@ class _RegistrationPageState extends State<RegistrationPage> {
   String _ktuId = "";
   String _password = "";
   String _confirmPassword = "";
-  final auth=FirebaseAuth.instance;
-  String userEmail = FirebaseAuth.instance.currentUser?.email ?? 'No user signed in';
-
+  final auth = FirebaseAuth.instance;
+  String userEmail =
+      FirebaseAuth.instance.currentUser?.email ?? 'No user signed in';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Registration Page'),
+        backgroundColor: Colors.blueGrey[800],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Name'),
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Please enter your name';
-                  }
-                  return null;
-                },
-                onChanged: (value) => _name = value ?? '',
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+            Flexible(
+            child: TextFormField(
+              decoration: InputDecoration(
+              labelText: 'Name',
+              labelStyle: TextStyle(
+                color: Colors.blueGrey[800],
+                fontWeight: FontWeight.bold,
               ),
-              SizedBox(height: 8.0),
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(labelText: 'Email'),
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Please enter your email';
-                  } else if (value != null && !value.endsWith('@mbcet.ac.in')) {
-                    return 'Please enter a valid mbcet email';
-                  }
-                  return null;
-                },
-                onChanged: (value) => _email = value ?? '',
-              ),  TextFormField(
-                obscureText: true,
-                decoration: InputDecoration(labelText: 'Password'),
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Please enter a password';
-                  }
-                  return null;
-                },
-                onChanged: (value) => _password = value ?? '',
+              border: OutlineInputBorder(),
+            ),
+            validator: (value) {
+              if (value?.isEmpty ?? true) {
+                return 'Please enter your name';
+              }
+              return null;
+            },
+            onChanged: (value) => _name = value ?? '',
+          ),
+        ),
+        SizedBox(height: 20.0),
+        Flexible(
+          child: TextFormField(
+            keyboardType: TextInputType.emailAddress,
+            decoration: InputDecoration(
+              labelText: 'Email',
+              labelStyle: TextStyle(
+                color: Colors.blueGrey[800],
+                fontWeight: FontWeight.bold,
               ),
-              SizedBox(height: 8.0),
-              TextFormField(
-                obscureText: true,
-                decoration: InputDecoration(labelText: 'Confirm Password'),
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Please confirm your password';
-                  } else if (value != _password) {
-
-                    return 'Passwords do not match';
-                  }
-                  else {
-                    return null;
-                  }
-                },
-                onChanged: (value) => _confirmPassword = value ?? '',
+              border: OutlineInputBorder(),
+            ),
+            validator: (value) {
+              if (value?.isEmpty ?? true) {
+                return 'Please enter your email';
+              } else if (value != null && !value.endsWith('@mbcet.ac.in')) {
+                return 'Please enter a valid mbcet email';
+              }
+              return null;
+            },
+            onChanged: (value) => _email = value ?? '',
+          ),
+        ),
+        SizedBox(height: 20.0),
+        Flexible(
+          child: TextFormField(
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Password',
+              labelStyle: TextStyle(
+                color: Colors.blueGrey[800],
+                fontWeight: FontWeight.bold,
               ),
-              SizedBox(height: 8.0),
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(labelText: 'Department'),
-                value: _department,
-                items: <String>['CSE', 'ME', 'CE', 'EEE', 'ECE']
-                    .map((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
+              border: OutlineInputBorder(),
+            ),
+            validator: (value) {
+              if (value?.isEmpty ?? true) {
+                return 'Please enter a password';
+              }
+              return null;
+            },
+            onChanged: (value) => _password = value ?? '',
+          ),
+        ),
+        SizedBox(height: 20.0),
+        Flexible(
+          child: TextFormField(
+            obscureText: true,
+            decoration: InputDecoration(
+              labelText: 'Confirm Password',
+              labelStyle: TextStyle(
+                color: Colors.blueGrey[800],
+                fontWeight: FontWeight.bold,
+              ),
+              border: OutlineInputBorder(),
+            ),
+            validator: (value) {
+              if (value?.isEmpty ?? true) {
+                return 'Please confirm your password';
+              } else if (value != _password) {
+                return 'Passwords do not match';
+              } else {
+                return null;
+              }
+            },
+            onChanged: (value) => _confirmPassword = value ?? '',
+          ),
+        ),
+        SizedBox(height: 20.0),
+        Flexible(
+          child: DropdownButtonFormField<String>(
+            decoration: InputDecoration(
+              labelText: 'Department',
+              labelStyle: TextStyle(color: Colors.blueGrey[800]),
+              border: OutlineInputBorder(),
+            ),
+            value: _department,
+            onChanged: (value) {
+                  setState(() {
+                    _department = value ?? '';
+                  });
+                },
+                items:
+                    <String>['CSE', 'ECE', 'EEE', 'ME', 'CE'].map((department) {
+                  return DropdownMenuItem(
+                    value: department,
+                    child: Text(
+                      department,
+                      style: TextStyle(fontSize: 16.0),
+                    ),
                   );
                 }).toList(),
-                onChanged: (String? value) {
-                  if (value != null) {
-                    setState(() {
-                      _department = value;
-                    });
-                  }
-                },
               ),
+    ),
               SizedBox(height: 8.0),
               DropdownButtonFormField<int>(
-                decoration: InputDecoration(labelText: 'Year'),
+                decoration: InputDecoration(
+                  labelText: 'Year',
+                  labelStyle: TextStyle(color: Colors.blueGrey[800]),
+                  border: OutlineInputBorder(),
+                ),
                 value: _year,
-                items: List.generate(4, (index) {
+                onChanged: (value) => _year = value ?? 1,
+                items:
+                    <int>[1, 2, 3, 4].map<DropdownMenuItem<int>>((int value) {
                   return DropdownMenuItem<int>(
-                    value: index + 1,
-                    child: Text('${index + 1}'),
+                    value: value,
+                    child: Text(value.toString()),
                   );
-                }),
-                onChanged: (int? value) {
-                  if (value != null) {
-                    setState(() {
-                      _year = value;
-                    });
-                  }
-                },
+                }).toList(),
               ),
               SizedBox(height: 8.0),
               TextFormField(
-                decoration: InputDecoration(labelText: 'KTU ID'),
+                decoration: InputDecoration(
+                  labelText: 'KTU ID',
+                  labelStyle: TextStyle(color: Colors.blueGrey[800]),
+                  border: OutlineInputBorder(),
+                ),
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
                     return 'Please enter your KTU ID';
@@ -136,95 +184,41 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 },
                 onChanged: (value) => _ktuId = value ?? '',
               ),
-              SizedBox(height: 16.0),
+              SizedBox(height: 8.0),
               ElevatedButton(
-                child: Text('Register'),
-                onPressed: () async{
+                child: Text('Register', style: TextStyle(fontSize: 16.0)),
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.blueGrey[800]),
+                  padding: MaterialStateProperty.all(
+                    EdgeInsets.symmetric(vertical: 12.0),
+                  ),
+                ),
+                onPressed: () async {
                   if (_formKey.currentState?.validate() == true) {
                     _formKey.currentState?.save();
-                    try{
-                      final newuser=auth.createUserWithEmailAndPassword(email: _email, password: _password);
-                      if(newuser!=null)
-                      {
-                       print(_email);
-                       print(_department);
-                       print(_ktuId);
-                       print(_name);
-                       print(_year);
-                        await fire_store.collection('students')
+                    try {
+                      final newuser = auth.createUserWithEmailAndPassword(
+                          email: _email, password: _password);
+                      if (newuser != null) {
+                        print(_email);
+                        print(_department);
+                        print(_ktuId);
+                        print(_name);
+                        print(_year);
+                        await fire_store
+                            .collection('students')
                             .doc('All')
                             .collection('Data')
                             .doc(_email)
                             .set({
                           'Dept': _department,
-                          'ID':_ktuId,
-                          'Name':_name,
-                          "Year":_year.toString()
+                          'ID': _ktuId,
+                          'Name': _name,
+                          "Year": _year.toString()
                         });
-                        if(_department=='CSE') {
-                          fire_store.collection('students')
-                              .doc('CSE')
-                              .collection('Data')
-                              .doc('$_email')
-                              .set({
-                            'Dept': _department,
-                            'ID':_ktuId,
-                            'Name':_name,
-                            "Year":_year
-                          });
-                        }
-                        else if(_department=='ME') {
-                          fire_store.collection('students')
-                              .doc('ME')
-                              .collection('Data')
-                              .doc('$_email')
-                              .set({
-                            'Dept': _department,
-                            'ID':_ktuId,
-                            'Name':_name,
-                            "Year":_year
-                          });
-                        }
-                        else if(_department=='CE') {
-                          fire_store.collection('students')
-                              .doc('CE')
-                              .collection('Data')
-                              .doc('$_email')
-                              .set({
-                            'Dept': _department,
-                            'ID':_ktuId,
-                            'Name':_name,
-                            "Year":_year
-                          });
-                        }
-                        else if(_department=='ECE') {
-                          fire_store.collection('students')
-                              .doc('ECE')
-                              .collection('Data')
-                              .doc('$_email')
-                              .set({
-                            'Dept': _department,
-                            'ID':_ktuId,
-                            'Name':_name,
-                            "Year":_year
-                          });
-                        }
-                        else if(_department=='EEE') {
-                          fire_store.collection('students')
-                              .doc('EEE')
-                              .collection('Data')
-                              .doc('$_email')
-                              .set({
-                            'Dept': _department,
-                            'ID':_ktuId,
-                            'Name':_name,
-                            "Year":_year
-                          });
-                        }
-
                       }
-                    }
-                    catch(e){
+                    } catch (e) {
                       print(e);
                     }
                     await FirebaseAuth.instance.signOut();
@@ -236,7 +230,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
           ),
         ),
       ),
-    );
+    ),);
   }
 }
-

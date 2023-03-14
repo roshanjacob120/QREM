@@ -1,89 +1,75 @@
 import 'package:flutter/material.dart';
 
-class RequestStatusPage extends StatefulWidget {
-  final int requestStatus;
-
-  RequestStatusPage({required this.requestStatus});
-
+class GatePassRequestPage extends StatefulWidget {
   @override
-  _RequestStatusPageState createState() => _RequestStatusPageState();
+  _GatePassRequestPageState createState() => _GatePassRequestPageState();
 }
 
-class _RequestStatusPageState extends State<RequestStatusPage> {
+class _GatePassRequestPageState extends State<GatePassRequestPage> {
+  int _currentStep = 0;
+
+  List<Step> _steps = [
+    Step(
+      title: Text('Request Sent'),
+      content: Text('Your gate pass request has been sent.'),
+      isActive: true,
+    ),
+    Step(
+      title: Text('Advisor Approval'),
+      content: Text('Your advisor has approved your request.'),
+      isActive: false,
+    ),
+    Step(
+      title: Text('HOD Approval'),
+      content: Text('Your Head of Department has approved your request.'),
+      isActive: false,
+    ),
+    Step(
+      title: Text('QR Code Generated'),
+      content: Text('Your gate pass has been approved and QR code has been generated.'),
+      isActive: false,
+    ),
+  ];
+
+  void _goToNextStep() {
+    setState(() {
+      _currentStep++;
+    });
+  }
+
+  void _goToPreviousStep() {
+    setState(() {
+      _currentStep--;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    String statusName = getStatusName(widget.requestStatus);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Request Status'),
+        title: Text('Gate Pass Request Status'),
       ),
-      body: Center(
+      body: Container(
+        padding: EdgeInsets.all(16.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Request Status:',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+            Expanded(
+              child: Stepper(
+                currentStep: _currentStep,
+                steps: _steps,
+                onStepContinue: _currentStep < _steps.length - 1 ? _goToNextStep : null,
+                onStepCancel: _currentStep > 0 ? _goToPreviousStep : null,
               ),
             ),
-            SizedBox(height: 20),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: SliderTheme(
-                data: SliderThemeData(
-                  thumbColor: Colors.blue,
-                  activeTrackColor: Colors.blue,
-                  inactiveTrackColor: Colors.blue,
-                  trackHeight: 10,
-                  thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12),
-                  overlayColor: Colors.blue.withAlpha(32),
-                  overlayShape: RoundSliderOverlayShape(overlayRadius: 28),
-                  valueIndicatorColor: Colors.blue,
-                  valueIndicatorShape: PaddleSliderValueIndicatorShape(),
-                  valueIndicatorTextStyle: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                  ),
-                ),
-                child: Slider(
-                  min: 0,
-                  max: 3,
-                  value: widget.requestStatus.toDouble(),
-                  divisions: 3,
-                  label: statusName,
-                  onChanged: null,
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              statusName,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Back'),
             ),
           ],
         ),
       ),
     );
-  }
-
-  String getStatusName(int status) {
-    switch (status) {
-      case 0:
-        return 'Request Sent';
-      case 1:
-        return 'Request Accepted by Advisor';
-      case 2:
-        return 'Request Accepted by HOD';
-      case 3:
-        return 'QR Code Generated';
-      default:
-        return 'Unknown';
-    }
   }
 }

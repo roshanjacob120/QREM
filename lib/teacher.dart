@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'main.dart';
 class TeacherRequestsScreen extends StatefulWidget {
   @override
   _TeacherRequestsScreenState createState() => _TeacherRequestsScreenState();
@@ -28,6 +28,21 @@ class _TeacherRequestsScreenState extends State<TeacherRequestsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Requests'),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              final SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.setBool("is_logged_in", false);
+              prefs.setBool("teacher_logged_in", false);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => LoginPage()),
+                    (Route<dynamic> route) => false,
+              );
+            },
+            icon: Icon(Icons.logout),
+          ),
+        ],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
@@ -137,6 +152,12 @@ class _TeacherRequestsScreenState extends State<TeacherRequestsScreen> {
                                         .update({
                                       'Status': 'Approved',
                                     });
+                                    await FirebaseFirestore.instance
+                                        .collection('Gate pass')
+                                        .doc('CSE')
+                                        .collection('Requests')
+                                        .doc(id)
+                                        .delete();
                                   }
                                 : null,
                           ),
@@ -145,7 +166,7 @@ class _TeacherRequestsScreenState extends State<TeacherRequestsScreen> {
                             color:
                                 status == 'Rejected' ? Colors.red : Colors.grey,
                             onPressed: status != 'Rejected'
-                                ? () {
+                                ? () async {
                                     FirebaseFirestore.instance
                                         .collection('Gate pass')
                                         .doc('CSE')
@@ -154,6 +175,12 @@ class _TeacherRequestsScreenState extends State<TeacherRequestsScreen> {
                                         .update({
                                       'Status': 'Rejected',
                                     });
+                                    await FirebaseFirestore.instance
+                                        .collection('Gate pass')
+                                        .doc('CSE')
+                                        .collection('Requests')
+                                        .doc(id)
+                                        .delete();
                                   }
                                 : null,
                           ),
@@ -163,7 +190,7 @@ class _TeacherRequestsScreenState extends State<TeacherRequestsScreen> {
                                 ? Colors.blue
                                 : Colors.grey,
                             onPressed: status != 'Reviewed'
-                                ? () {
+                                ? () async {
                                     FirebaseFirestore.instance
                                         .collection('Gate pass')
                                         .doc('CSE')
@@ -172,6 +199,12 @@ class _TeacherRequestsScreenState extends State<TeacherRequestsScreen> {
                                         .update({
                                       'Status': 'Reviewed',
                                     });
+                                    await FirebaseFirestore.instance
+                                        .collection('Gate pass')
+                                        .doc('CSE')
+                                        .collection('Requests')
+                                        .doc(id)
+                                        .delete();
                                   }
                                 : null,
                           ),

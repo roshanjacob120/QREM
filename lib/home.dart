@@ -5,7 +5,7 @@ import 'gatepass.dart';
 import 'homescreen.dart';
 import 'qrcode.dart';
 import 'status.dart';
-
+import 'profile.dart';
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -58,10 +58,10 @@ class _HomePageState extends State<HomePage> {
         widget =  GatePass();
         break;
       case 2 :
-        widget = RequestStatusPage(requestStatus: 1);
+        widget = GatePassRequestPage();
         break;
       default:
-        widget = homescreen();
+        widget = ProfilePage();
         break;
     }
     return widget;
