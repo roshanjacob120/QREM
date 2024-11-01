@@ -1,9 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:qrem_pass/Forms/form.dart';
 import 'package:qrem_pass/qrcode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'main.dart';
 import 'gatepass.dart';
+import 'Forms/form.dart';
+
 class homescreen extends StatelessWidget {
   const homescreen({super.key});
 
@@ -62,9 +65,16 @@ class homescreen extends StatelessWidget {
                     )
                 ),
                 onPressed: () {
-                  // TODO: Implement late entry request functionality
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => GatePassForm()),
+                  );
                 },
-                child: Text('Late Entry Request'),
+                child: Text('Late Entry Request',
+                  style: TextStyle(
+                    fontSize: 50,
+                  ),
+                ),
               ),
             ),
             SizedBox(height: 16),

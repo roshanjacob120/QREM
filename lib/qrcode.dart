@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class GatePass extends StatefulWidget {
@@ -9,9 +10,11 @@ class GatePass extends StatefulWidget {
 }
 
 class _GatePassState extends State<GatePass> {
-  String acceptedBy = '';
+  String acceptedByhod = '';
+  String acceptedbyadv='';
   String reason = '';
   String timeout = '';
+  String date="";
 
   @override
   void initState() {
@@ -29,9 +32,13 @@ class _GatePassState extends State<GatePass> {
         .get();
 
     setState(() {
-      acceptedBy = snapshot['Acceptedby'];
+      acceptedByhod = snapshot['Accepted by HOD'];
+      acceptedbyadv= snapshot['Accepted by Advisor'];
       reason = snapshot['Reason'];
       timeout = snapshot['Time out'];
+      date=snapshot['Date'];
+      print(reason);
+      print(timeout);
     });
   }
 
@@ -46,15 +53,16 @@ class _GatePassState extends State<GatePass> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             QrImage(
-              data: 'Accepted By:$acceptedBy\nReason:$reason\nTimeout:$timeout',
+              data: 'Accepted By HOD:$acceptedByhod\n Accepted by advisor:$acceptedbyadv\nReason:$reason\nTimeout:$timeout\nDate:$date',
               version: QrVersions.auto,
               size: 200.0,
             ),
             SizedBox(height: 20.0),
             Text(
-              'Accepted By: $acceptedBy\nReason: $reason\nTime Out: $timeout',
+              'Accepted By HOD:$acceptedByhod\n Accepted by advisor:$acceptedbyadv\nReason:$reason\nTimeout:$timeout\nDate:$date',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20.0),
+              style: GoogleFonts.sulphurPoint(
+                  fontSize: 18.0, fontWeight: FontWeight.w700),
             ),
           ],
         ),

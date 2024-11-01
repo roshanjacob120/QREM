@@ -1,27 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'main.dart';
+
+
+
 class TeacherRequestsScreen extends StatefulWidget {
+  final String teacherEmail;
+
+  const TeacherRequestsScreen({required this.teacherEmail});
   @override
   _TeacherRequestsScreenState createState() => _TeacherRequestsScreenState();
 }
 
 class _TeacherRequestsScreenState extends State<TeacherRequestsScreen> {
-  String teacherEmail = '';
+  String teacherDept = "";
+  String teacherRole = "";
+  String hod = "";
+  String tname="";
+
 
   @override
   void initState() {
     super.initState();
-    getTeacherEmail();
+    getTeacherDetails();
   }
 
-  Future<void> getTeacherEmail() async {
+  Future<void> getTeacherDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      teacherEmail = prefs.getString("teacher_email") ?? '';
-    });
+    CollectionReference staffCollection =
+    FirebaseFirestore.instance.collection('Staff');
+    DocumentSnapshot staffDoc =
+    await staffCollection.doc(widget.teacherEmail).get();
+    if (staffDoc.exists) {
+      print(widget.teacherEmail);
+      Map<String, dynamic> data = staffDoc.data() as Map<String, dynamic>;
+      String dept = data['Dept'];
+      String role = data['Role'];
+      String name=data['Name'];
+      print(role);
+      setState(() {
+        teacherDept = dept;
+        teacherRole = role;
+        tname=name;
+      });
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +57,8 @@ class _TeacherRequestsScreenState extends State<TeacherRequestsScreen> {
         actions: [
           IconButton(
             onPressed: () async {
-              final SharedPreferences prefs = await SharedPreferences.getInstance();
+              final SharedPreferences prefs =
+              await SharedPreferences.getInstance();
               prefs.setBool("is_logged_in", false);
               prefs.setBool("teacher_logged_in", false);
               Navigator.pushAndRemoveUntil(
@@ -46,9 +73,9 @@ class _TeacherRequestsScreenState extends State<TeacherRequestsScreen> {
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
-            .collection('Gate pass')
-            .doc('CSE')
-            .collection('Requests')
+            .collection('Staff')
+            .doc(widget.teacherEmail)
+            .collection('gatepass')
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -63,34 +90,33 @@ class _TeacherRequestsScreenState extends State<TeacherRequestsScreen> {
               child: Text('No requests found.'),
             );
           }
-
           return ListView.builder(
             itemCount: requestDocs.length,
             itemBuilder: (context, index) {
               Map<String, dynamic> requestData =
-                  Map<String, dynamic>.from(requestDocs[index].data() as Map);
+              Map<String, dynamic>.from(requestDocs[index].data() as Map);
               String name = requestData['Name'];
               String reason = requestData['Reason'];
               String timeOut = requestData['Time out'];
+              String date=requestData['Date'];
               String dept = requestData['Dept'];
               String year = requestData['Year'];
               String id = requestDocs[index].id;
               String status = requestData['Status'];
-
-
-
+              String? advisor = requestData["Accepted by"]?.toString();
+              print(advisor);
               return Card(
                 margin: EdgeInsets.all(8.0),
                 child: Padding(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         name,
-                        style: TextStyle(
-                            fontSize: 20.0, fontWeight: FontWeight.bold),
+                        style: GoogleFonts.sulphurPoint(
+                            fontSize: 20.0, fontWeight: FontWeight.w900),
                       ),
                       SizedBox(height: 8.0),
                       Row(
@@ -98,12 +124,14 @@ class _TeacherRequestsScreenState extends State<TeacherRequestsScreen> {
                         children: [
                           Text(
                             'Reason: $reason',
-                            style: TextStyle(fontSize: 16.0),
+                            style: GoogleFonts.sulphurPoint(
+                                fontSize: 18.0, fontWeight: FontWeight.w700),
                           ),
                           Text(
                             'Time Out: $timeOut',
-                            style: TextStyle(fontSize: 16.0),
-                          ),
+                            style: GoogleFonts.sulphurPoint(
+                                fontSize: 18.0, fontWeight: FontWeight.w700),
+                          )
                         ],
                       ),
                       SizedBox(height: 8.0),
@@ -112,11 +140,13 @@ class _TeacherRequestsScreenState extends State<TeacherRequestsScreen> {
                         children: [
                           Text(
                             'Dept: $dept',
-                            style: TextStyle(fontSize: 16.0),
+                            style: GoogleFonts.sulphurPoint(
+                                fontSize: 18.0, fontWeight: FontWeight.w700),
                           ),
                           Text(
                             'Year of Study: $year',
-                            style: TextStyle(fontSize: 16.0),
+                            style: GoogleFonts.sulphurPoint(
+                                fontSize: 18.0, fontWeight: FontWeight.w700),
                           ),
                         ],
                       ),
@@ -131,82 +161,143 @@ class _TeacherRequestsScreenState extends State<TeacherRequestsScreen> {
                                 : Colors.grey,
                             onPressed: status != 'Approved'
                                 ? () async {
-                                    print(teacherEmail);
-                                    print(reason);
-                                    print(timeOut);
-                                    print(id);
-                                    await FirebaseFirestore.instance
-                                        .collection('Accepted Gate pass')
-                                        .doc(id)
-                                        .set({
-                                      "Acceptedby": teacherEmail,
-                                      "Reason": reason,
-                                      "Time out": timeOut
-                                    });
-
-                                    await FirebaseFirestore.instance
-                                        .collection('Gate pass')
-                                        .doc('CSE')
-                                        .collection('Requests')
-                                        .doc(id)
-                                        .update({
-                                      'Status': 'Approved',
-                                    });
-                                    await FirebaseFirestore.instance
-                                        .collection('Gate pass')
-                                        .doc('CSE')
-                                        .collection('Requests')
-                                        .doc(id)
-                                        .delete();
-                                  }
+                              print(teacherRole);
+                              print(teacherDept);
+                              print(reason);
+                              print(timeOut);
+                              print(id);
+                              if (teacherRole == 'advisor') {
+                                hod = await FirebaseFirestore.instance
+                                    .collection('HOD')
+                                    .doc('MBCET')
+                                    .get()
+                                    .then((doc) => doc.get(teacherDept));
+                                await FirebaseFirestore.instance
+                                    .collection('Staff')
+                                    .doc(hod)
+                                    .collection('gatepass')
+                                    .doc(id)
+                                    .set({
+                                  'Dept': dept,
+                                  'ID': id,
+                                  'Name': name,
+                                  "Year": year,
+                                  "Reason": reason,
+                                  "Time out": timeOut,
+                                  "Date":date,
+                                  "Status": "false",
+                                  "Accepted by": tname
+                                });
+                                await FirebaseFirestore.instance
+                                    .collection('Staff')
+                                    .doc(widget.teacherEmail)
+                                    .collection('history')
+                                    .doc(id)
+                                    .set({
+                                  'Dept': dept,
+                                  'ID': id,
+                                  'Name': name,
+                                  "Year": year,
+                                  "Reason": reason,
+                                  "Time": timeOut,
+                                  "Date":date,
+                                  "Status": "Accepted",
+                                  "Category":"Gate Exit"
+                                });
+                                await FirebaseFirestore.instance
+                                    .collection('gatepasstrack')
+                                    .doc(id)
+                                    .set({
+                                  "Advisor": "true",
+                                  "HOD": "false"
+                                });
+                                await FirebaseFirestore.instance
+                                    .collection('Staff')
+                                    .doc(widget.teacherEmail)
+                                    .collection('gatepass')
+                                    .doc(id)
+                                    .delete();
+                              } else if (teacherRole == "HOD") {
+                                await FirebaseFirestore.instance
+                                    .collection('Accepted Gate pass')
+                                    .doc(id)
+                                    .set({
+                                  'Dept': dept,
+                                  'ID': id,
+                                  'Name': name,
+                                  "Year": year,
+                                  "Reason": reason,
+                                  "Time out": timeOut,
+                                  "Date":date,
+                                  "Status": "false",
+                                  "Accepted by Advisor": advisor,
+                                  "Accepted by HOD": tname
+                                });
+                                await FirebaseFirestore.instance
+                                    .collection('gatepasstrack')
+                                    .doc(id)
+                                    .set({
+                                  "Advisor": "true",
+                                  "HOD": "true"
+                                });
+                                await FirebaseFirestore.instance
+                                    .collection('Staff')
+                                    .doc(widget.teacherEmail)
+                                    .collection('gatepass')
+                                    .doc(id)
+                                    .delete();
+                              }
+                            }
                                 : null,
                           ),
                           IconButton(
                             icon: Icon(Icons.close),
                             color:
-                                status == 'Rejected' ? Colors.red : Colors.grey,
-                            onPressed: status != 'Rejected'
-                                ? () async {
-                                    FirebaseFirestore.instance
-                                        .collection('Gate pass')
-                                        .doc('CSE')
-                                        .collection('Requests')
-                                        .doc(id)
-                                        .update({
-                                      'Status': 'Rejected',
-                                    });
-                                    await FirebaseFirestore.instance
-                                        .collection('Gate pass')
-                                        .doc('CSE')
-                                        .collection('Requests')
-                                        .doc(id)
-                                        .delete();
-                                  }
-                                : null,
+                            status == 'Rejected' ? Colors.red : Colors.grey,
+                            onPressed:
+                            status != 'Rejected' ? () async {
+                              await FirebaseFirestore.instance
+                                  .collection('Staff')
+                                  .doc(widget.teacherEmail)
+                                  .collection('history')
+                                  .doc(id)
+                                  .set({
+                                'Dept': dept,
+                                'ID': id,
+                                'Name': name,
+                                "Year": year,
+                                "Reason": reason,
+                                "Time": timeOut,
+                                "Date":date,
+                                "Status": "Rejected",
+                                "Category":"Gate Exit"
+                              });
+                            } : null,
                           ),
                           IconButton(
                             icon: Icon(Icons.rate_review),
                             color: status == 'Reviewed'
                                 ? Colors.blue
                                 : Colors.grey,
-                            onPressed: status != 'Reviewed'
-                                ? () async {
-                                    FirebaseFirestore.instance
-                                        .collection('Gate pass')
-                                        .doc('CSE')
-                                        .collection('Requests')
-                                        .doc(id)
-                                        .update({
-                                      'Status': 'Reviewed',
-                                    });
-                                    await FirebaseFirestore.instance
-                                        .collection('Gate pass')
-                                        .doc('CSE')
-                                        .collection('Requests')
-                                        .doc(id)
-                                        .delete();
-                                  }
-                                : null,
+                            onPressed:
+                            status != 'Reviewed' ? () async {
+                              await FirebaseFirestore.instance
+                                  .collection('Staff')
+                                  .doc(widget.teacherEmail)
+                                  .collection('history')
+                                  .doc(id)
+                                  .set({
+                                'Dept': dept,
+                                'ID': id,
+                                'Name': name,
+                                "Year": year,
+                                "Reason": reason,
+                                "Time": timeOut,
+                                "Date":date,
+                                "Status": "Reviewed",
+                                "Category":"Gate Exit"
+                              });
+                            } : null,
                           ),
                         ],
                       ),

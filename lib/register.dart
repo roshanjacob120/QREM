@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'main.dart';
+class register extends StatefulWidget {
+  final String email;
 
-class RegistrationPage extends StatefulWidget {
+  const register({Key? key, required this.email}) : super(key: key);
   @override
-  _RegistrationPageState createState() => _RegistrationPageState();
+  _registerState createState() => _registerState();
 }
 
-class _RegistrationPageState extends State<RegistrationPage> {
-  final _formKey = GlobalKey<FormState>();
+class _registerState extends State<register> {
+  // Controllers for the text fields
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+  TextEditingController();
   final fire_store = FirebaseFirestore.instance;
   String _name = "";
   String _email = "";
@@ -22,214 +29,207 @@ class _RegistrationPageState extends State<RegistrationPage> {
   final auth = FirebaseAuth.instance;
   String userEmail =
       FirebaseAuth.instance.currentUser?.email ?? 'No user signed in';
+  @override
+  void initState() {
+    super.initState();
+    _email = widget.email; // set the initial value of the email controller
+  }
+
+
+  // Department dropdown value and options
+  String? _selectedDepartment;
+  final List<String> _departmentOptions = ['CSE','CE','ECE','ME','EEE'];
+  String? _selectedYear;
+  final List<String> _yearOptions = ['1st','2nd','3rd','4th'];
+  String? _selectedbatch;
+  final List<String> _batchOptions = ['2023','2024','2025','2026','2027'];
+
+  // Whether to obscure the password fields or not
+  bool _obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Registration Page'),
-        backgroundColor: Colors.blueGrey[800],
+        title: Text('Create Account',
+          style: GoogleFonts.sulphurPoint(),),
+        backgroundColor: Colors.teal,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: ListView(
+            children:[ Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-            Flexible(
-            child: TextFormField(
-              decoration: InputDecoration(
-              labelText: 'Name',
-              labelStyle: TextStyle(
-                color: Colors.blueGrey[800],
-                fontWeight: FontWeight.bold,
-              ),
-              border: OutlineInputBorder(),
-            ),
-            validator: (value) {
-              if (value?.isEmpty ?? true) {
-                return 'Please enter your name';
-              }
-              return null;
-            },
-            onChanged: (value) => _name = value ?? '',
-          ),
-        ),
-        SizedBox(height: 20.0),
-        Flexible(
-          child: TextFormField(
-            keyboardType: TextInputType.emailAddress,
-            decoration: InputDecoration(
-              labelText: 'Email',
-              labelStyle: TextStyle(
-                color: Colors.blueGrey[800],
-                fontWeight: FontWeight.bold,
-              ),
-              border: OutlineInputBorder(),
-            ),
-            validator: (value) {
-              if (value?.isEmpty ?? true) {
-                return 'Please enter your email';
-              } else if (value != null && !value.endsWith('@mbcet.ac.in')) {
-                return 'Please enter a valid mbcet email';
-              }
-              return null;
-            },
-            onChanged: (value) => _email = value ?? '',
-          ),
-        ),
-        SizedBox(height: 20.0),
-        Flexible(
-          child: TextFormField(
-            obscureText: true,
-            decoration: InputDecoration(
-              labelText: 'Password',
-              labelStyle: TextStyle(
-                color: Colors.blueGrey[800],
-                fontWeight: FontWeight.bold,
-              ),
-              border: OutlineInputBorder(),
-            ),
-            validator: (value) {
-              if (value?.isEmpty ?? true) {
-                return 'Please enter a password';
-              }
-              return null;
-            },
-            onChanged: (value) => _password = value ?? '',
-          ),
-        ),
-        SizedBox(height: 20.0),
-        Flexible(
-          child: TextFormField(
-            obscureText: true,
-            decoration: InputDecoration(
-              labelText: 'Confirm Password',
-              labelStyle: TextStyle(
-                color: Colors.blueGrey[800],
-                fontWeight: FontWeight.bold,
-              ),
-              border: OutlineInputBorder(),
-            ),
-            validator: (value) {
-              if (value?.isEmpty ?? true) {
-                return 'Please confirm your password';
-              } else if (value != _password) {
-                return 'Passwords do not match';
-              } else {
-                return null;
-              }
-            },
-            onChanged: (value) => _confirmPassword = value ?? '',
-          ),
-        ),
-        SizedBox(height: 20.0),
-        Flexible(
-          child: DropdownButtonFormField<String>(
-            decoration: InputDecoration(
-              labelText: 'Department',
-              labelStyle: TextStyle(color: Colors.blueGrey[800]),
-              border: OutlineInputBorder(),
-            ),
-            value: _department,
-            onChanged: (value) {
-                  setState(() {
-                    _department = value ?? '';
-                  });
-                },
-                items:
-                    <String>['CSE', 'ECE', 'EEE', 'ME', 'CE'].map((department) {
-                  return DropdownMenuItem(
-                    value: department,
-                    child: Text(
-                      department,
-                      style: TextStyle(fontSize: 16.0),
-                    ),
-                  );
-                }).toList(),
-              ),
-    ),
-              SizedBox(height: 8.0),
-              DropdownButtonFormField<int>(
-                decoration: InputDecoration(
-                  labelText: 'Year',
-                  labelStyle: TextStyle(color: Colors.blueGrey[800]),
-                  border: OutlineInputBorder(),
+              children: [
+                // Name text field
+                TextField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    labelText: 'Name',
+                  ),
+                    onChanged: (value) {
+                      setState(() {
+                        _name = value;
+                      });
+                    }
+
                 ),
-                value: _year,
-                onChanged: (value) => _year = value ?? 1,
-                items:
-                    <int>[1, 2, 3, 4].map<DropdownMenuItem<int>>((int value) {
-                  return DropdownMenuItem<int>(
-                    value: value,
-                    child: Text(value.toString()),
-                  );
-                }).toList(),
-              ),
-              SizedBox(height: 8.0),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'KTU ID',
-                  labelStyle: TextStyle(color: Colors.blueGrey[800]),
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value?.isEmpty ?? true) {
-                    return 'Please enter your KTU ID';
-                  }
-                  return null;
-                },
-                onChanged: (value) => _ktuId = value ?? '',
-              ),
-              SizedBox(height: 8.0),
-              ElevatedButton(
-                child: Text('Register', style: TextStyle(fontSize: 16.0)),
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.blueGrey[800]),
-                  padding: MaterialStateProperty.all(
-                    EdgeInsets.symmetric(vertical: 12.0),
+                SizedBox(height: 16.0),
+
+                // Email text field
+                DropdownButtonFormField<String>(
+                  value: _selectedYear,
+                  items: _yearOptions.map((year) {
+                    return DropdownMenuItem(
+                      value: year,
+                      child: Text(year),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedYear = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Year',
                   ),
                 ),
-                onPressed: () async {
-                  if (_formKey.currentState?.validate() == true) {
-                    _formKey.currentState?.save();
-                    try {
-                      final newuser = auth.createUserWithEmailAndPassword(
-                          email: _email, password: _password);
-                      if (newuser != null) {
-                        print(_email);
-                        print(_department);
-                        print(_ktuId);
-                        print(_name);
-                        print(_year);
-                        await fire_store
-                            .collection('students')
-                            .doc('All')
-                            .collection('Data')
-                            .doc(_email)
-                            .set({
-                          'Dept': _department,
-                          'ID': _ktuId,
-                          'Name': _name,
-                          "Year": _year.toString()
+                SizedBox(height: 16.0),
+                DropdownButtonFormField<String>(
+                  value: _selectedbatch,
+                  items: _batchOptions.map((batch) {
+                    return DropdownMenuItem(
+                      value: batch,
+                      child: Text(batch),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedbatch = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Batch',
+                  ),
+                ),
+                SizedBox(height: 16.0),
+
+                // Password text field with obscure toggle
+                TextField(
+                  controller: _passwordController,
+                  obscureText: _obscurePassword,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    suffixIcon: IconButton(
+                      icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
                         });
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16.0),
+
+                // Confirm password text field with obscure toggle
+                TextField(
+                  controller: _confirmPasswordController,
+                  obscureText: _obscurePassword,
+                  decoration: InputDecoration(
+                    labelText: 'Confirm Password',
+                    suffixIcon: IconButton(
+                      icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
+                      onPressed: () {
+                        setState(() {
+                          _obscurePassword = !_obscurePassword;
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16.0),
+
+                // Department dropdown
+                DropdownButtonFormField<String>(
+                  value: _selectedDepartment,
+                  items: _departmentOptions.map((department) {
+                    return DropdownMenuItem(
+                      value: department,
+                      child: Text(department),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedDepartment = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Department',
+                  ),
+                ),
+                SizedBox(height: 16.0),
+
+                TextField(
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: 'KTU ID',
+                  ),onChanged: (value) {
+                  setState(() {
+                    _ktuId = value;
+                  });
+                }
+                ),
+                SizedBox(height: 16.0),
+                // Create account button
+                SizedBox(
+                  height: 50,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      try {
+                        final newuser = auth.createUserWithEmailAndPassword(
+                            email: _email, password: _password);
+                        if (newuser != null) {
+                          print(_email);
+                          print(_department);
+                          print(_ktuId);
+                          print(_name);
+                          print(_year);
+                          await fire_store
+                              .collection('students')
+                              .doc('All')
+                              .collection('Data')
+                              .doc(_email)
+                              .set({
+                            'Dept': _department,
+                            'ID': _ktuId,
+                            'Name': _name,
+                            "Year": _year.toString(),
+                            "Batch":_selectedbatch
+                          });
+                        }
+                      } catch (e) {
+                        print(e);
                       }
-                    } catch (e) {
-                      print(e);
-                    }
-                    await FirebaseAuth.instance.signOut();
-                    Navigator.pop(context);
-                  }
-                },
-              ),
-            ],
-          ),
+                      await FirebaseAuth.instance.signOut();
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.black,
+                    ),
+                    child: Text('Create Account',
+
+                        style: GoogleFonts.sulphurPoint(
+                            fontSize: 20.0
+                        )),
+                  ),
+                ),
+              ],
+
+            ),
+            ]
         ),
       ),
-    ),);
+    );
   }
 }

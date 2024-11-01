@@ -6,18 +6,24 @@ class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
+
 class _ProfilePageState extends State<ProfilePage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _yearController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _oldPasswordController = TextEditingController();
+  final _ktuIdController =
+      TextEditingController(); // New controller for KTU ID field
 
   String _name = '';
   String _email = '';
-  String _year="1";
+  String _year = "1";
   List<String> _yearOptions = ['1', '2', '3', '4'];
   String _password = '';
+  String _oldPassword = '';
+  String _ktuId = ''; // New variable to store KTU ID
 
   @override
   void initState() {
@@ -27,14 +33,21 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _getUserInfo() async {
     final user = FirebaseAuth.instance.currentUser;
-    final userData = await FirebaseFirestore.instance.collection('students').doc('All').collection('Data').doc(user!.email).get();
+    final userData = await FirebaseFirestore.instance
+        .collection('students')
+        .doc('All')
+        .collection('Data')
+        .doc(user!.email)
+        .get();
     setState(() {
       _name = userData['Name'];
       _email = user.email!;
       _year = userData['Year'];
+      _ktuId = userData['ID']; // Retrieve KTU ID from Firebase
       _nameController.text = _name;
       _emailController.text = _email;
       _yearController.text = _year;
+      _ktuIdController.text = _ktuId; // Set KTU ID to the controller
     });
   }
 
@@ -43,13 +56,20 @@ class _ProfilePageState extends State<ProfilePage> {
     final userData = {
       'Year': _year,
     };
-    await FirebaseFirestore.instance.collection('students').doc('All').collection('Data').doc(user!.email).update(userData);
+    await FirebaseFirestore.instance
+        .collection('students')
+        .doc('All')
+        .collection('Data')
+        .doc(user!.email)
+        .update(userData);
     if (_password.isNotEmpty) {
       await user.updatePassword(_password);
     }
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Profile updated.'),
-    ));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Profile updated.'),
+      ),
+    );
   }
 
   @override
@@ -108,7 +128,32 @@ class _ProfilePageState extends State<ProfilePage> {
                     _year = value as String;
                   },
                 ),
-
+                SizedBox(height: 16.0),
+                TextFormField(
+                  controller: _ktuIdController,
+                  decoration: InputDecoration(
+                    labelText: 'KTU ID',
+                  ),
+                  enabled:
+                      false, // Set enabled to false to make it non-editable
+                ),
+                SizedBox(height: 16.0),
+                TextFormField(
+                  controller: _oldPasswordController,
+                  obscureText: true,
+                  decoration: InputDecoration(
+                    labelText: 'Old password',
+                  ),
+                  validator: (value) {
+                    if (value != null && value.isEmpty) {
+                      return 'Please enter your old password.';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _oldPassword = value!;
+                  },
+                ),
                 SizedBox(height: 16.0),
                 TextFormField(
                   controller: _passwordController,
@@ -131,7 +176,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
-                      _updateProfile();
+                      _validateAndUpdateProfile();
                     }
                   },
                   child: Text('Save'),
@@ -142,5 +187,37 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
+  }
+
+  Future<void> _validateAndUpdateProfile() async {
+    final user = FirebaseAuth.instance.currentUser;
+    final credential = EmailAuthProvider.credential(
+      email: user!.email!,
+      password: _oldPassword,
+    );
+    try {
+      await user.reauthenticateWithCredential(credential);
+      _updateProfile();
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Invalid old password.'),
+          ),
+        );
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('An error occurred. Please try again later.'),
+          ),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('An error occurred. Please try again later.'),
+        ),
+      );
+    }
   }
 }

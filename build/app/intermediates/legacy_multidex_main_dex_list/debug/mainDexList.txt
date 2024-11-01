@@ -170,7 +170,10 @@ com/google/android/gms/internal/common/zzs.class
 com/google/android/gms/internal/common/zzx.class
 com/google/android/gms/internal/common/zzy.class
 com/google/android/gms/internal/common/zzz.class
+com/google/android/gms/location/ActivityTransition$SupportedActivityTransition.class
 com/google/android/gms/stats/CodePackage.class
+com/google/android/play/core/integrity/model/IntegrityErrorCode.class
+com/google/android/recaptcha/internal/zzbf.class
 com/google/common/annotations/Beta.class
 com/google/common/annotations/GwtCompatible.class
 com/google/common/annotations/GwtIncompatible.class
@@ -243,6 +246,7 @@ com/google/firebase/annotations/concurrent/Lightweight.class
 com/google/firebase/annotations/concurrent/UiThread.class
 com/google/firebase/auth/ActionCodeResult$ActionDataKey.class
 com/google/firebase/auth/ActionCodeResult$Operation.class
+com/google/firebase/firestore/AggregateQuerySnapshot.class
 com/google/firebase/firestore/DocumentId.class
 com/google/firebase/firestore/Exclude.class
 com/google/firebase/firestore/IgnoreExtraProperties.class
@@ -358,10 +362,9 @@ kotlin/Deprecated.class
 kotlin/DeprecatedSinceKotlin.class
 kotlin/DeprecationLevel.class
 kotlin/DslMarker.class
-kotlin/Experimental$Level.class
-kotlin/Experimental.class
 kotlin/ExperimentalMultiplatform.class
 kotlin/ExperimentalStdlibApi.class
+kotlin/ExperimentalSubclassOptIn.class
 kotlin/ExperimentalUnsignedTypes.class
 kotlin/ExtensionFunctionType.class
 kotlin/Metadata$DefaultImpls.class
@@ -375,9 +378,9 @@ kotlin/ReplaceWith.class
 kotlin/RequiresOptIn$Level.class
 kotlin/RequiresOptIn.class
 kotlin/SinceKotlin.class
+kotlin/SubclassOptInRequired.class
 kotlin/Suppress.class
 kotlin/UnsafeVariance.class
-kotlin/UseExperimental.class
 kotlin/WasExperimental.class
 kotlin/annotation/AnnotationRetention.class
 kotlin/annotation/AnnotationTarget.class
@@ -397,6 +400,8 @@ kotlin/collections/unsigned/UArraysKt___UArraysKt.class
 kotlin/contracts/ExperimentalContracts.class
 kotlin/coroutines/RestrictsSuspension.class
 kotlin/coroutines/jvm/internal/DebugMetadata.class
+kotlin/experimental/ExperimentalObjCName.class
+kotlin/experimental/ExperimentalObjCRefinement.class
 kotlin/experimental/ExperimentalTypeInference.class
 kotlin/internal/AccessibleLateinitPropertyLiteral.class
 kotlin/internal/ContractsDsl.class
@@ -415,6 +420,7 @@ kotlin/internal/RequireKotlin.class
 kotlin/internal/RequireKotlinVersionKind.class
 kotlin/io/ByteStreamsKt.class
 kotlin/io/FilesKt__UtilsKt.class
+kotlin/io/encoding/ExperimentalEncodingApi.class
 kotlin/io/path/ExperimentalPathApi.class
 kotlin/io/path/PathsKt__PathUtilsKt.class
 kotlin/js/ExperimentalJsExport.class
@@ -429,6 +435,7 @@ kotlin/jvm/JvmName.class
 kotlin/jvm/JvmOverloads.class
 kotlin/jvm/JvmPackageName.class
 kotlin/jvm/JvmRecord.class
+kotlin/jvm/JvmSerializableLambda.class
 kotlin/jvm/JvmStatic.class
 kotlin/jvm/JvmSuppressWildcards.class
 kotlin/jvm/JvmSynthetic.class
@@ -442,7 +449,13 @@ kotlin/jvm/Volatile.class
 kotlin/jvm/internal/FunctionImpl.class
 kotlin/jvm/internal/RepeatableContainer.class
 kotlin/jvm/internal/SerializedIr.class
+kotlin/jvm/internal/SourceDebugExtension.class
+kotlin/ranges/CharRange.class
+kotlin/ranges/IntRange.class
+kotlin/ranges/LongRange.class
 kotlin/ranges/RangesKt___RangesKt.class
+kotlin/ranges/UIntRange.class
+kotlin/ranges/ULongRange.class
 kotlin/sequences/SequencesKt___SequencesJvmKt.class
 kotlin/sequences/SequencesKt___SequencesKt.class
 kotlin/text/CharsKt__CharJVMKt.class
@@ -454,11 +467,11 @@ kotlin/text/StringsKt__StringsKt.class
 kotlin/text/StringsKt___StringsJvmKt.class
 kotlin/text/StringsKt___StringsKt.class
 kotlin/text/Typography.class
+kotlin/time/AbstractDoubleTimeSource.class
 kotlin/time/Duration$Companion.class
 kotlin/time/Duration.class
 kotlin/time/DurationKt.class
 kotlin/time/ExperimentalTime.class
-kotlin/time/TimeSourceKt.class
 kotlinx/coroutines/ChildHandle.class
 kotlinx/coroutines/ChildJob$DefaultImpls.class
 kotlinx/coroutines/ChildJob.class
